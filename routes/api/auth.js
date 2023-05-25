@@ -9,6 +9,8 @@ const {
   currentUser,
   subscription,
   updateAvatar,
+  verifyEmail,
+  resendVerifyEmail,
 } = require("../../controlles/auth");
 const ctrl = require("../../controlles/auth");
 const { validateBody, auth, upload } = require("../../middlewares");
@@ -19,6 +21,15 @@ router.post(
   validateBody(schemas.registerSchema),
   registration
 );
+
+router.get("/users/verify/:verificationToken", verifyEmail);
+
+router.post(
+  "/users/verify",
+  validateBody(schemas.validationEmailUser),
+  resendVerifyEmail
+);
+
 router.post("/users/login", validateBody(schemas.loginSchema), login);
 
 router.post("/users/logout", auth, logout);
